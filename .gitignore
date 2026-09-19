@@ -3,6 +3,8 @@
 *.iml
 *.iws
 *.ipr
+*.class
+classes/
 out/
 # Maven
 target/

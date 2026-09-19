@@ -4,5 +4,7 @@
 *.iws
 *.ipr
 out/
+*.class
+classes/
 # Maven
 target/
