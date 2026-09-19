@@ -1,4 +1,4 @@
-package com.clone;
+package com.cln;
 
 import java.net.InetAddress;
 import org.springframework.boot.SpringApplication;
