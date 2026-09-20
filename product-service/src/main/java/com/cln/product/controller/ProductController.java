@@ -2,6 +2,8 @@ package com.cln.product.controller;
 
 import com.cln.product.dto.req.ProductReq;
 import com.cln.product.dto.res.ProductRes;
+import com.cln.product.service.ProductService;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
+  private final ProductService productService;
+
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
+
   @GetMapping("/{id}")
-  public ResponseEntity<ProductRes> getProduct(@PathVariable("id") Integer id) {
-    return ResponseEntity.ok(new ProductRes());
+  public ProductRes getProduct(@PathVariable("id") Long id) {
+    return productService.getProduct(id);
+  }
+
+  @GetMapping
+  public List<ProductRes> getProducts() {
+    return productService.getProducts();
   }
 
   @PutMapping("/{id}")
