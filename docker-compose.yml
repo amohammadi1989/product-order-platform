@@ -1,4 +1,18 @@
 services:
+  product-service:
+    image: product-service:1.0
+    container_name: product-service
+    restart: on-failure
+    ports:
+      - "7070:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:mysql://product-mysql:3306/product_db
+      SPRING_DATASOURCE_USERNAME: product
+      SPRING_DATASOURCE_PASSWORD: product
+    depends_on:
+      product-mysql:
+        condition: service_healthy
   product-mysql:
     image: mysql:8.4
     container_name: product-mysql
@@ -12,6 +26,11 @@ services:
       - "3306:3306"
     volumes:
       - product_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "product", "-pproduct"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
   order-mysql:
     image: mysql:8.4
     container_name: order-mysql
