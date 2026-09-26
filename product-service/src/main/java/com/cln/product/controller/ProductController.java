@@ -3,8 +3,10 @@ package com.cln.product.controller;
 import com.cln.product.dto.req.ProductReq;
 import com.cln.product.dto.res.ProductRes;
 import com.cln.product.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,18 +39,20 @@ public class ProductController {
     return productService.getProducts();
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<ProductRes> updateProduct(@PathVariable("id") Integer id) {
-    return ResponseEntity.ok(new ProductRes());
+  @PutMapping
+  public ResponseEntity<ProductRes> updateProduct(@Valid
+  @RequestBody ProductReq productReq) {
+    return ResponseEntity.ok(productService.updateProduct(productReq));
   }
 
   @PostMapping
-  public ResponseEntity<ProductRes> createProduct(@RequestBody ProductReq productReq) {
-    return ResponseEntity.ok(new ProductRes());
+  public ResponseEntity<ProductRes> createProduct(@Valid @RequestBody ProductReq productReq) {
+    return ResponseEntity.ok(productService.createProduct(productReq));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
+  public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+    productService.deleteProduct(id);
     return ResponseEntity.ok("successfully product with id " + id + " is delete");
   }
 }

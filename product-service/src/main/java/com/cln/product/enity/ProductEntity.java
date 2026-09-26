@@ -45,7 +45,7 @@ public class ProductEntity {
 
   @PrePersist
   protected void onCreated() {
-    LocalDateTime localDate = LocalDateTime.now();
+    var localDate = LocalDateTime.now();
     createdAt = localDate;
     updatedAt = localDate;
     if (stockQuantity == null) {
@@ -58,7 +58,9 @@ public class ProductEntity {
 
   @PreUpdate
   protected void onUpdated() {
-    LocalDateTime localDateTime = LocalDateTime.now();
+    var localDateTime = LocalDateTime.now();
     updatedAt = localDateTime;
+    if(createdAt==null)
+      createdAt=localDateTime;
   }
 }

@@ -3,6 +3,8 @@ services:
     image: product-service:1.0
     container_name: product-service
     restart: on-failure
+    profiles:
+      - product
     ports:
       - "7070:8080"
     environment:
@@ -17,6 +19,8 @@ services:
     image: mysql:8.4
     container_name: product-mysql
     restart: unless-stopped
+    profiles:
+      - mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: product_db
@@ -32,6 +36,8 @@ services:
       timeout: 5s
       retries: 10
   order-mysql:
+    profiles:
+      - order
     image: mysql:8.4
     container_name: order-mysql
     restart: unless-stopped
