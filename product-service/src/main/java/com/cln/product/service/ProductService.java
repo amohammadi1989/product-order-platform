@@ -38,7 +38,7 @@ public class ProductService {
   @Transactional
   public ProductRes createProduct(ProductReq productReq) {
     productRepository.findBySku(productReq.getSku()).ifPresent(product -> {
-      throw new ProductFoundException(product.getSku());
+      throw new ProductFoundException(product.getSku(),-100);
     });
     var entities = productMapper.toEntity(productReq);
     return productMapper.toDto(productRepository.save(entities));
