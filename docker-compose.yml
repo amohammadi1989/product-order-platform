@@ -1,12 +1,12 @@
 services:
   product-service:
-    image: product-service:1.0
+    image: ${PRODUCT_IMAGE}
     container_name: product-service
     restart: on-failure
     profiles:
       - product
     ports:
-      - "7070:8080"
+      - "${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_CONTAINER_PORT}"
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:mysql://product-mysql:3306/product_db
@@ -16,7 +16,7 @@ services:
       product-mysql:
         condition: service_healthy
   product-mysql:
-    image: mysql:8.4
+    image: ${MYSQL_IMAGE}
     container_name: product-mysql
     restart: unless-stopped
     profiles:
