@@ -1,6 +1,5 @@
 package com.cln.product.dto.res;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,13 +8,12 @@ import lombok.NoArgsConstructor;
 /**
  * @author Ali Mohammadi
  */
-@Builder
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResDto {
-  private String msg;
-  private Integer code;
-  private List<ValidationErrorDto> errors;
+public class ValidationErrorDto {
 
+  private String field;
+  private String message;
 }

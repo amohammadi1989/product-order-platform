@@ -1,5 +1,6 @@
 package com.cln.product.dto.req;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class ProductReq {
   private String description;
   @NotBlank(message = "sku is required")
   @Size(max = 50, message = "sku must not exceed 50 characters")
+  @Pattern(regexp = "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$",message = "SKU must contain uppercase letters, numbers and hyphens")
   private String sku;
   @NotNull(message = "price is required")
   @DecimalMin(value = "1.0", message = "price must be greater than or equal to 1")
