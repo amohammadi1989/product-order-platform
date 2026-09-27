@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -24,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "PRODUCT", uniqueConstraints = {
     @UniqueConstraint(name = "uk_product_sku", columnNames = "sku")})
-public class ProductEntity {
+public class ProductEntity extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,27 +42,8 @@ public class ProductEntity {
   @Column(nullable = false)
   private Integer stockQuantity;
   private Boolean active = true;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private CategoryEntity category;
 
-  @PrePersist
-  protected void onCreated() {
-    var localDate = LocalDateTime.now();
-    createdAt = localDate;
-    updatedAt = localDate;
-    if (stockQuantity == null) {
-      stockQuantity = 0;
-    }
-    if (active == null) {
-      active = true;
-    }
-  }
-
-  @PreUpdate
-  protected void onUpdated() {
-    var localDateTime = LocalDateTime.now();
-    updatedAt = localDateTime;
-    if(createdAt==null)
-      createdAt=localDateTime;
-  }
 }
