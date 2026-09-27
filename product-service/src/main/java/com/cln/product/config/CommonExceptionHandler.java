@@ -46,4 +46,10 @@ public class CommonExceptionHandler {
         .map(error -> ValidationErrorDto.builder() .field(error.getField()) .message(error.getDefaultMessage()) .build()) .toList(); ErrorResDto response = ErrorResDto.builder() .msg("Validation failed") .code(HttpStatus.BAD_REQUEST.value()) .errors(errors) .build();
         return ResponseEntity .badRequest() .body(response);
   }
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResDto> handleException(
+      Exception ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(ErrorResDto.builder().msg(ex.getMessage()).code(-1000).build());
+  }
 }
