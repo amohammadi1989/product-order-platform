@@ -7,4 +7,5 @@ out/
 *.class
 classes/
 # Maven
-target/
+target/**
+**/target/

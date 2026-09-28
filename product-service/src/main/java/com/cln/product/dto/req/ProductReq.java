@@ -40,4 +40,6 @@ public class ProductReq {
   private Integer stockQuantity;
   @NotNull(message = "active is required")
   private Boolean active;
+  @NotNull(message = "categoryId is required")
+  private Long categoryId;
 }

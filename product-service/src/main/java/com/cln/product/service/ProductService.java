@@ -9,21 +9,20 @@ import com.cln.product.mapper.ProductMapper;
 import com.cln.product.repositoriy.ProductRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
  * @author Ali Mohammadi
  */
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
   private final ProductRepository productRepository;
   private final ProductMapper productMapper;
+  private final CategoryService categoryService;
 
-  public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
-    this.productRepository = productRepository;
-    this.productMapper = productMapper;
-  }
 
   public List<ProductRes> getProducts() {
     var lists = productRepository.findAll();
@@ -37,11 +36,18 @@ public class ProductService {
 
   @Transactional
   public ProductRes createProduct(ProductReq productReq) {
+    validateSkuNotExists(productReq);
+    var category = categoryService.getReferenceById(productReq.getCategoryId());
+    var product = productMapper.toEntity(productReq);
+    product.setCategory(category);
+    var savedProduct = productRepository.save(product);
+    return productMapper.toDto(savedProduct);
+  }
+
+  private void validateSkuNotExists(ProductReq productReq) {
     productRepository.findBySku(productReq.getSku()).ifPresent(product -> {
-      throw new ProductFoundException(product.getSku(),-100);
+      throw new ProductFoundException(product.getSku(), -100);
     });
-    var entities = productMapper.toEntity(productReq);
-    return productMapper.toDto(productRepository.save(entities));
   }
 
   public void deleteProduct(Long id) {
@@ -52,10 +58,9 @@ public class ProductService {
   public ProductRes updateProduct(ProductReq productReq) {
     var product = productRepository.findById(productReq.getId())
         .orElseThrow(() -> new RecordNotFoundException(productReq.getId()));
-    product.setActive(productReq.getActive());
-    product.setDescription(productReq.getDescription());
-    product.setStockQuantity(productReq.getStockQuantity());
-    product.setPrice(productReq.getPrice());
+    var category = categoryService.getReferenceById(productReq.getCategoryId());
+    productMapper.updateEntity(productReq, product);
+    product.setCategory(category);
     return productMapper.toDto(product);
   }
 }

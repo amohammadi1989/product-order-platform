@@ -23,6 +23,7 @@ public class ProductRes {
   private String sku;
   private BigDecimal price;
   private Integer stockQuantity;
+  private CategoryResDto category;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 }
