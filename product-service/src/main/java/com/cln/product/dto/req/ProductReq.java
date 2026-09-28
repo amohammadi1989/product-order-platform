@@ -1,5 +1,11 @@
 package com.cln.product.dto.req;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -7,12 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Ali Mohammadi
@@ -22,13 +22,14 @@ import jakarta.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductReq {
+
   private Long id;
   @NotBlank(message = "name is required")
   private String name;
   private String description;
   @NotBlank(message = "sku is required")
   @Size(max = 50, message = "sku must not exceed 50 characters")
-  @Pattern(regexp = "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$",message = "SKU must contain uppercase letters, numbers and hyphens")
+  @Pattern(regexp = "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$", message = "SKU must contain uppercase letters, numbers and hyphens")
   private String sku;
   @NotNull(message = "price is required")
   @DecimalMin(value = "1.0", message = "price must be greater than or equal to 1")
