@@ -8,3 +8,7 @@ classes/
 out/
 # Maven
 **/target/
+**/target/maven-status/maven-compiler-plugin/compile/default-compile/
+**/target/classes/com/clone/
+**/target/classes/deployment.yaml
+/product-service/target/maven-status/
